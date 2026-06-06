@@ -640,6 +640,12 @@ public class SecureRedirectUrisEnforcerExecutorTest extends AbstractClientPolici
         Assertions.assertEquals(List.of("https://oauth.redirect/some"), clientRepp.getRedirectUris());
         Assertions.assertEquals(List.of("https://oauth.redirect/some"), clientRepp.getPostLogoutRedirectUris());
 
+        // Success - update with post-logout redirect uris as an empty value from UI
+        updateClientDynamically(clientId, (OIDCClientRepresentation clientRep) -> {
+            clientRep.setRedirectUris(List.of("https://oauth.redirect/some"));
+            clientRep.setPostLogoutRedirectUris(List.of(""));
+        });
+
         // Fail - incorrect domain for post-logout redirect uri
         try {
             updateClientDynamically(clientId, (OIDCClientRepresentation clientRep) -> {
